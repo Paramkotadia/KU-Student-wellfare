@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Card, CardHeader, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -42,6 +43,7 @@ export default function AdminAuth() {
       setError(res.error);
     } else if (res.ok) {
       setIsRegistered(!!res.isRegistered);
+      if (res.fullName) setFullName(res.fullName);
       setStep(2);
     }
   };
@@ -65,11 +67,22 @@ export default function AdminAuth() {
   };
 
   return (
-    <div className="flex-1 flex justify-center items-center p-4 bg-slate-50">
+    <div className="flex-1 flex flex-col justify-center items-center p-4 bg-slate-50">
+      <div className="mb-4 w-full max-w-md">
+        <Link href="/" className="text-sm text-slate-500 hover:text-ku-navy flex items-center gap-1 transition-colors">
+          &larr; Back to Home
+        </Link>
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader 
           title="Staff / Admin Login" 
-          description={step === 1 ? "Enter your Staff ID to proceed." : (isRegistered ? "Welcome back. Enter your password." : "Complete your staff registration.") } 
+          description={
+            step === 1 
+              ? "Enter your Staff ID and Email to proceed." 
+              : isRegistered 
+                ? `Welcome back, ${fullName}. Enter your password.` 
+                : `Hello, ${fullName}. Please complete your staff registration.`
+          } 
         />
         <CardContent>
           <form onSubmit={step === 1 ? handleIdSubmit : handleFinalSubmit} className="space-y-4">

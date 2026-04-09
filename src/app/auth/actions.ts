@@ -23,7 +23,7 @@ export async function checkIdAction(collegeId: string, email: string, expectedRo
     return { error: `This ID is for a different role (${user.role}).` };
   }
 
-  return { ok: true, isRegistered: !!user.passwordHash };
+  return { ok: true, isRegistered: !!user.passwordHash, fullName: user.fullName };
 }
 
 export async function loginAction(collegeId: string, passwordHash: string) {

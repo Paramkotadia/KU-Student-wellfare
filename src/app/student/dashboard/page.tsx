@@ -6,7 +6,8 @@ import { Card, CardHeader, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { submitComplaintAction, getStudentComplaints, getUserSession } from "./actions";
-import { UserCircle, UploadCloud, AlertCircle } from "lucide-react";
+import { logoutAction } from "../actions";
+import { UserCircle, UploadCloud, AlertCircle, LogOut } from "lucide-react";
 import { format } from "date-fns";
 
 const categories = [
@@ -96,9 +97,15 @@ export default function StudentDashboard() {
             <p className="text-sm text-slate-500 font-mono">{user?.collegeId}</p>
           </div>
         </div>
-        <Button variant="ghost" onClick={async () => {
-          // A quick logout action call can be placed here, for now simple redirect via server action
-        }}>
+        <Button 
+          variant="ghost" 
+          onClick={async () => {
+            await logoutAction();
+            router.push("/");
+          }}
+          className="text-slate-500 hover:text-red-600 hover:bg-red-50"
+        >
+          <LogOut size={20} className="mr-2" />
           Logout
         </Button>
       </div>
