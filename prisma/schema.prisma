@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String       @id @default(uuid())
+  collegeId         String       @unique
+  fullName          String?
+  email             String?      @unique
+  role              String       // 'student' or 'admin'
+  department        String?      // Category they manage (for admins only)
+  profilePhotoUrl   String?
+  passwordHash      String?
+  isVerified        Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+
+  complaints        Complaint[]  @relation("StudentComplaints")
+  handledComplaints Complaint[]  @relation("AdminComplaints")
+  remarks           Remark[]
+}
+
+model Complaint {
+  id              String       @id @default(uuid())
+  studentId       String
+  student         User         @relation("StudentComplaints", fields: [studentId], references: [id])
+  category        String
+  description     String
+  proofImageUrl   String?
+  incidentDate    DateTime
+  status          String       @default("pending") // pending, in_progress, resolved, overdue
+  adminId         String?
+  admin           User?        @relation("AdminComplaints", fields: [adminId], references: [id])
+  
+  createdAt       DateTime     @default(now())
+  deadline        DateTime
+  resolvedAt      DateTime?
+  expiresAt       DateTime
+
+  remarks         Remark[]
+  escalations     Escalation[]
+}
+
+model Remark {
+  id            String     @id @default(uuid())
+  complaintId   String
+  complaint     Complaint  @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  adminId       String
+  admin         User       @relation(fields: [adminId], references: [id])
+  message       String
+  createdAt     DateTime   @default(now())
+}
+
+model Escalation {
+  id              String     @id @default(uuid())
+  complaintId     String
+  complaint       Complaint  @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  reason          String
+  escalatedAt     DateTime   @default(now())
+  reminderSentAt  DateTime?
+}
