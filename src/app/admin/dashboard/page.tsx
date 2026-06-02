@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { getAdminDashboardData, updateComplaintStatusAction } from "./actions";
-import { logoutAction } from "../auth/actions";
+import { logoutAction } from "../../auth/actions";
 import { UserCircle, FileText, CheckCircle, Clock, AlertTriangle, ChevronDown, LogOut } from "lucide-react";
 import { format, differenceInDays } from "date-fns";
 
