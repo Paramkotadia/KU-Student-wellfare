@@ -6,7 +6,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { submitComplaintAction, getStudentComplaints, getUserSession } from "./actions";
-import { logoutAction } from "../actions";
+import { logoutAction } from "../../auth/actions";
 import { UserCircle, UploadCloud, AlertCircle, LogOut } from "lucide-react";
 import { format } from "date-fns";
 
@@ -142,9 +142,9 @@ export default function StudentDashboard() {
                     <textarea 
                       name="description" 
                       required 
-                      minLength={50}
+                      minLength={5}
                       rows={4}
-                      placeholder="Please describe your issue in detail... (Min 50 chars)"
+                      placeholder="Please describe your issue in detail... (Min 5 chars)"
                       className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:ring-ku-navy focus:outline-none focus:border-ku-navy"
                     />
                   </div>

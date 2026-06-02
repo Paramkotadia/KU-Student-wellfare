@@ -43,8 +43,8 @@ export async function submitComplaintAction(formData: FormData) {
   const incidentDateObj = new Date(formData.get('incidentDate') as string);
   const file = formData.get('proofImage') as File;
 
-  if (description.length < 50) {
-    return { error: 'Description must be at least 50 characters.' };
+  if (description.length < 5) {
+    return { error: 'Description must be at least 5 characters.' };
   }
 
   let proofImageUrl = null;
